@@ -32,7 +32,7 @@ function disconnect(){
     console.log("Disconnected");
 }
 
-//广播（一对多）
+//监听某广播（一对多）
 function stompTopic(){
     //通过stompClient.subscribe订阅/topic/getResponse 目标(destination)发送的消息（广播接收信息）
     stompClient.subscribe('/mass/getResponse',function(response){
@@ -43,7 +43,7 @@ function stompTopic(){
     });
 }
 
-//列队（一对一）
+//监听对自己发消息的列队（一对一）
 function stompQueue(){
 
     var userId=$("#selectName").val();

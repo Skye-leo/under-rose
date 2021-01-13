@@ -8,6 +8,6 @@ public class RouterController {
 
     @GetMapping("/mass")
     public String massPage(){
-        return "chatroom";
+        return "mass";
     }
 }
