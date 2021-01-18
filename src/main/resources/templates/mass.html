@@ -132,12 +132,15 @@
             <div class="grid-content"></div>
         </el-col>
         <el-col :span="8">
-            <div style="display: flex; flex-direction: column;">
+            <div style="display: flex; flex-direction: column;" v-if="firstFloor">
                 <div style="display: flex; flex-direction: row">
-
+                    <el-input placeholder="请输入聊天口令" v-model="address" class="input-with-select">
+                        <template slot="append"><el-button type="success" @click="">确定</el-button></template>
+                    </el-input>
                 </div>
             </div>
-            <!--<el-card class="box-card">
+
+            <el-card class="box-card" v-if="secondFloor">
                 <div ref="msg_box" class="msg_box" style="overflow: auto; height: 600px;padding-right: 4%;">
                     <div v-for="obj in massMsg" :class="obj.location=='left'?'item_left text item':'item_right text item'">
                         <div v-if="obj.location=='left'" class="loca_left">
@@ -173,7 +176,7 @@
                         </el-input>
                     </span>
                 </div>
-            </el-card>-->
+            </el-card>
         </el-col>
         <el-col :span="8">
             <div class="grid-content"></div>
@@ -195,6 +198,8 @@
     new Vue({
         el: '#app',
         data: {
+            firstFloor: true,
+            secondFloor: false,
             userName: '',
             msgToSend: '',
             massMsg: [
@@ -209,7 +214,7 @@
                 msg: "",
                 location: "left"
             },
-            address: 'test1',
+            address: '',
             massReq: {
                 msg: '',
                 name: ''
