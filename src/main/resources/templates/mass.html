@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 
     <!-- 引入样式文件 -->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css"/>-->
+    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css"/>-->
     <style>
         .text {
             font-size: 14px;
@@ -37,26 +37,34 @@
 
         .el-row {
             margin-bottom: 20px;
-             &:last-child {
-               margin-bottom: 0;
-             }
+
+        &
+        :last-child {
+            margin-bottom: 0;
+        }
+
         }
         .el-col {
             border-radius: 4px;
         }
+
         .bg-purple-dark {
             background: #99a9bf;
         }
+
         .bg-purple {
             background: #d3dce6;
         }
+
         .bg-purple-light {
             background: #e5e9f2;
         }
+
         .grid-content {
             border-radius: 4px;
             min-height: 36px;
         }
+
         .row-bg {
             padding: 10px 0;
             background-color: #f9fafc;
@@ -64,28 +72,31 @@
 
         /*--------------------------------------*/
 
-        .left,.right{
+        .left, .right {
             min-height: 60px;
             position: relative;
             left: 10px;
-            word-break:break-all;
+            word-break: break-all;
             display: table;
             text-align: center;
             border-radius: 7px;
-            background-color:#9EEA6A;
+            background-color: #9EEA6A;
             font-size: 16px;
         }
-        .right{      /*使左右的对话框分开*/
+
+        .right { /*使左右的对话框分开*/
             top: 20px;
-            left: 150px;
+            left: 86%;
             background-color: #FC3;
         }
-        .left > p,.right > p{    /*使内容居中*/
+
+        .left > p, .right > p { /*使内容居中*/
             display: table-cell;
             vertical-align: middle;
             padding: 0 10px;
         }
-        .left:before,.right:after{   /*用伪类写出小三角形*/
+
+        .left:before, .right:after { /*用伪类写出小三角形*/
             content: '';
             display: block;
             width: 0;
@@ -94,12 +105,14 @@
             position: absolute;
             top: 11px;
         }
+
         /*分别给左右两边的小三角形定位*/
-        .left:before{
+        .left:before {
             border-right: 16px solid #9EEA6A;
             left: -30px;
         }
-        .right:after{
+
+        .right:after {
             border-left: 16px solid #FC3;
             right: -30px;
         }
@@ -112,20 +125,21 @@
 <body>
 <div id="app">
     <el-row>
-        <el-col :span="8"><div class="grid-content"></div></el-col>
         <el-col :span="8">
-            <el-card class="box-card" style="overflow: auto; height: 800px;">
+            <div class="grid-content"></div>
+        </el-col>
+        <el-col :span="8">
+            <el-card class="box-card" style="overflow: auto; height: 600px;">
                 <div v-for="obj in massMsg" class="text item">
-                    <p>xxx:</p>
-                    <span class="left">
-                        <p>{{obj}}</p>
+                    <div v-if="obj.location=='right'">
+                        <span style="left: 90%; position: relative;top: 16px;">{{obj.name}}</span>
+                    </div>
+                    <div v-else>
+                        <span>{{obj.name}}</span>
+                    </div>
+                    <span :class="obj.location">
+                        <p>{{obj.msg}}</p>
                     </span>
-    <!--            <div class="left">-->
-    <!--                <p>你好，我是卖茶叶的</p>-->
-    <!--            </div>-->
-    <!--            <div class="right">-->
-    <!--                <p>你好，我是种茶的</p>-->
-    <!--            </div>-->
                 </div>
             </el-card>
 
@@ -133,20 +147,24 @@
                 <div v-if="showNameInput">
                      <span>
                         <el-input placeholder="请输入昵称" v-model="userName" class="input-with-select">
-                            <template slot="append"><el-button type="success" @click="closeNameInput">确定</el-button></template>
+                            <template slot="append"><el-button type="success"
+                                                               @click="closeNameInput">确定</el-button></template>
                         </el-input>
                     </span>
                 </div>
                 <div style="padding-top: 20px;">
                     <span>
-                        <el-input placeholder="请输入内容" v-model="msg" class="input-with-select">
-                            <template slot="append"><el-button type="success" @click="sendMassMessage">发送</el-button></template>
+                        <el-input placeholder="请输入内容" v-model="msgToSend" class="input-with-select">
+                            <template slot="append"><el-button type="success"
+                                                               @click="sendMassMessage">发送</el-button></template>
                         </el-input>
                     </span>
                 </div>
             </el-card>
         </el-col>
-        <el-col :span="8"><div class="grid-content"></div></el-col>
+        <el-col :span="8">
+            <div class="grid-content"></div>
+        </el-col>
     </el-row>
 </div>
 
@@ -165,10 +183,21 @@
         el: '#app',
         data: {
             userName: '',
-            msg: '',
-            massMsg: ['asssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssss','basssssssssss','casssssssssss','dasssssssssss','easssssssssss','fasssssssssss','gasssssssssss','hasssssssssss','iasssssssssss','aasssssssssss','basssssssssss','casssssssssss','dasssssssssss','easssssssssss','fasssssssssss','gasssssssssss','hasssssssssss','iasssssssssss'],
+            msgToSend: '',
+            // massMsg: ['asssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssss','basssssssssss','casssssssssss','dasssssssssss','easssssssssss','fasssssssssss','gasssssssssss','hasssssssssss','iasssssssssss','aasssssssssss','basssssssssss','casssssssssss','dasssssssssss','easssssssssss','fasssssssssss','gasssssssssss','hasssssssssss','iasssssssssss'],
+            massMsg: [
+                {
+                    name: "who",
+                    msg: "asssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssss",
+                    location: "left"
+                }
+            ],
+            newMsgShow: {
+                name: "",
+                msg: "",
+                location: "left"
+            },
             address: 'test1',
-            reqMsg: '',
             massReq: {
                 msg: '',
                 name: ''
@@ -201,24 +230,35 @@
             //广播（一对多）
             stompTopic() {
                 //通过stompClient.subscribe订阅/topic/getResponse 目标(destination)发送的消息（广播接收信息）
-                this.stompClient.subscribe(`/mass/${this.address}`,(response)=>{
-                    console.log("11111222222");
-                    console.log(this);
+                this.stompClient.subscribe(`/mass/${this.address}`, (response) => {
                     let json = JSON.parse(response.body);
                     //展示广播的接收的内容接收
-                    this.reqMsg = json.name + ": " + json.msg;
-                    this.massMsg.push(this.reqMsg);
+                    this.newMsgShow.msg = json.msg;
+                    this.newMsgShow.name = json.name;
+                    if(json.name == this.userName){
+                        this.newMsgShow.location = "right";
+                    }else {
+                        this.newMsgShow.location = "left";
+                    }
+                    this.massMsg.push(this.newMsgShow);
+                    console.log(this.massMsg);
                 });
             },
             //群聊
-            sendMassMessage(){
+            sendMassMessage(event) {
                 this.massReq.name = this.userName;
-                this.massReq.msg = this.msg;
-                this.stompClient.send(`/mass/${this.address}`,{},JSON.stringify(this.massReq));
-                this.msg = '';
+                this.massReq.msg = this.msgToSend;
+                this.stompClient.send(`/mass/${this.address}`, {}, JSON.stringify(this.massReq));
+                this.msgToSend = '';
+                console.log("11111111");
+                console.log(this.$refs);
+                // 改变滚动条位置
+                this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
+                console.log("当前滚动条位置:"+this.$refs.messagesContainer.scrollTop);
+                console.log("当前可滚动区域容器的高度:"+this.$refs.messagesContainer.scrollHeight);
             },
-            closeNameInput(){
-                console.log(this.userName+"--username");
+            closeNameInput() {
+                console.log(this.userName + "--username");
                 this.showNameInput = false;
             }
         },
