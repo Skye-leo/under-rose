@@ -37,13 +37,11 @@
 
         .el-row {
             margin-bottom: 20px;
-
-        &
-        :last-child {
+        &:last-child {
             margin-bottom: 0;
         }
-
         }
+
         .el-col {
             border-radius: 4px;
         }
@@ -74,8 +72,7 @@
 
         .left, .right {
             min-height: 60px;
-            position: relative;
-            left: 10px;
+            left: 4%;
             word-break: break-all;
             display: table;
             text-align: center;
@@ -85,8 +82,6 @@
         }
 
         .right { /*使左右的对话框分开*/
-            top: 20px;
-            left: 86%;
             background-color: #FC3;
         }
 
@@ -96,28 +91,36 @@
             padding: 0 10px;
         }
 
-        .left:before, .right:after { /*用伪类写出小三角形*/
-            content: '';
-            display: block;
-            width: 0;
-            height: 0;
-            border: 16px solid transparent;
-            position: absolute;
-            top: 11px;
-        }
-
-        /*分别给左右两边的小三角形定位*/
-        .left:before {
-            border-right: 16px solid #9EEA6A;
-            left: -30px;
-        }
-
-        .right:after {
-            border-left: 16px solid #FC3;
-            right: -30px;
-        }
-
         /*-------------------------------*/
+        .msg_box::-webkit-scrollbar {
+            width: 0 !important
+        }
+
+        .loca_left{
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .loca_right{
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .item_right{
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .item_left{
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+        }
+
     </style>
 
 </head>
@@ -129,30 +132,40 @@
             <div class="grid-content"></div>
         </el-col>
         <el-col :span="8">
-            <el-card class="box-card" style="overflow: auto; height: 600px;">
-                <div v-for="obj in massMsg" class="text item">
-                    <div v-if="obj.location=='right'">
-                        <span style="left: 90%; position: relative;top: 16px;">{{obj.name}}</span>
+            <div style="display: flex; flex-direction: column;">
+                <div style="display: flex; flex-direction: row">
+
+                </div>
+            </div>
+            <!--<el-card class="box-card">
+                <div ref="msg_box" class="msg_box" style="overflow: auto; height: 600px;padding-right: 4%;">
+                    <div v-for="obj in massMsg" :class="obj.location=='left'?'item_left text item':'item_right text item'">
+                        <div v-if="obj.location=='left'" class="loca_left">
+                            <span>{{obj.name}}</span>
+                            <span :class="obj.location">
+                                <p>{{obj.msg}}</p>
+                            </span>
+                        </div>
+                        <div v-else class="loca_right">
+                            <span>{{obj.name}}</span>
+                            <span :class="obj.location">
+                                <p>{{obj.msg}}</p>
+                            </span>
+                        </div>
                     </div>
-                    <div v-else>
-                        <span>{{obj.name}}</span>
-                    </div>
-                    <span :class="obj.location">
-                        <p>{{obj.msg}}</p>
-                    </span>
                 </div>
             </el-card>
 
             <el-card class="box-card">
-                <div v-if="showNameInput">
+                <div v-if="nameInputShow">
                      <span>
-                        <el-input placeholder="请输入昵称" v-model="userName" class="input-with-select">
+                        <el-input placeholder="请先输入昵称，才能发送消息哦～" v-model="userName" class="input-with-select">
                             <template slot="append"><el-button type="success"
                                                                @click="closeNameInput">确定</el-button></template>
                         </el-input>
                     </span>
                 </div>
-                <div style="padding-top: 20px;">
+                <div v-if="msgToSendShow" style="padding-top: 20px;">
                     <span>
                         <el-input placeholder="请输入内容" v-model="msgToSend" class="input-with-select">
                             <template slot="append"><el-button type="success"
@@ -160,7 +173,7 @@
                         </el-input>
                     </span>
                 </div>
-            </el-card>
+            </el-card>-->
         </el-col>
         <el-col :span="8">
             <div class="grid-content"></div>
@@ -184,11 +197,10 @@
         data: {
             userName: '',
             msgToSend: '',
-            // massMsg: ['asssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssss','basssssssssss','casssssssssss','dasssssssssss','easssssssssss','fasssssssssss','gasssssssssss','hasssssssssss','iasssssssssss','aasssssssssss','basssssssssss','casssssssssss','dasssssssssss','easssssssssss','fasssssssssss','gasssssssssss','hasssssssssss','iasssssssssss'],
             massMsg: [
                 {
                     name: "who",
-                    msg: "asssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssssasssssssssss",
+                    msg: "asssssssssssasssssssss",
                     location: "left"
                 }
             ],
@@ -202,12 +214,23 @@
                 msg: '',
                 name: ''
             },
-            showNameInput: true,
-            stompClient: ''
+            nameInputShow: true,
+            msgToSendShow: false,
+            stompClient: '',
+            timer: ''
         },
         methods: {
             initWebSocket() {
                 this.connect();
+                let that = this;
+                // 断开重连机制,尝试发送消息,捕获异常发生时重连
+                this.timer = setInterval(() => {
+                    try {
+                        that.stompClient.send('test');
+                    } catch (err) {
+                        console.log("已经失去连接");
+                    }
+                }, 5000);
             },
             //打开双通道
             connect() {
@@ -233,15 +256,18 @@
                 this.stompClient.subscribe(`/mass/${this.address}`, (response) => {
                     let json = JSON.parse(response.body);
                     //展示广播的接收的内容接收
-                    this.newMsgShow.msg = json.msg;
-                    this.newMsgShow.name = json.name;
-                    if(json.name == this.userName){
-                        this.newMsgShow.location = "right";
-                    }else {
-                        this.newMsgShow.location = "left";
+                    let reciveMsg = {}
+                    reciveMsg.msg = json.msg;
+                    reciveMsg.name = json.name;
+                    if (json.name == this.userName) {
+                        reciveMsg.location = "right";
+                    } else {
+                        reciveMsg.location = "left";
                     }
-                    this.massMsg.push(this.newMsgShow);
-                    console.log(this.massMsg);
+                    this.massMsg.push(reciveMsg);
+                    // 改变滚动条位置
+                    let location = this.$refs.msg_box.scrollHeight;
+                    this.$refs.msg_box.scrollTop = location;
                 });
             },
             //群聊
@@ -250,16 +276,11 @@
                 this.massReq.msg = this.msgToSend;
                 this.stompClient.send(`/mass/${this.address}`, {}, JSON.stringify(this.massReq));
                 this.msgToSend = '';
-                console.log("11111111");
-                console.log(this.$refs);
-                // 改变滚动条位置
-                this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
-                console.log("当前滚动条位置:"+this.$refs.messagesContainer.scrollTop);
-                console.log("当前可滚动区域容器的高度:"+this.$refs.messagesContainer.scrollHeight);
             },
             closeNameInput() {
                 console.log(this.userName + "--username");
-                this.showNameInput = false;
+                this.nameInputShow = false;
+                this.msgToSendShow = true;
             }
         },
         beforeDestroy() {
