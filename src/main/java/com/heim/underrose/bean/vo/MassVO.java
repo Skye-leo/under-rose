@@ -8,4 +8,8 @@ public class MassVO {
     private String msg;
 
     private String name;
+
+    private Long time;
+
+    private String uuid;
 }
