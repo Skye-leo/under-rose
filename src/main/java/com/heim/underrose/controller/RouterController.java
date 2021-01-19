@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class RouterController {
 
-    @GetMapping("/mass")
+    @GetMapping("/underTheRose")
     public String massPage(){
         return "mass";
     }
