@@ -82,7 +82,7 @@
             text-align: center;
             border-radius: 0.5rem;
             background-color: #9EEA6A;
-            font-size:1.5rem;
+            font-size:1.3rem;
         }
 
         .right { /*使左右的对话框分开*/
@@ -155,7 +155,14 @@
 <div id="app">
     <el-row>
         <el-col :span="8">
-            <div class="grid-content"></div>
+            <div class="grid-content" style="width: 18rem; margin-left: 5rem; padding-top: 8rem;">
+                <el-alert
+                        title="请注意，当您关闭窗口后聊天记录会被删除，且不能恢复。Under The Rose不会保存聊天记录，聊天完全匿名"
+                        type="warning"
+                        style="padding-right: 5rem;"
+                        close-text="我知道了～">
+                </el-alert>
+            </div>
         </el-col>
         <el-col :span="8" class="mainbox">
 <!--输入口令页面-->
@@ -394,6 +401,10 @@
         },
         mounted() {
             this.initWebSocket();
+            window.onbeforeunload = function () {
+                // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
+                return '关闭提示';
+            };
         },
     });
 
